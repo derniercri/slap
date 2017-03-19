@@ -1,0 +1,18 @@
+language: elixir
+elixir:
+- 1.4
+otp_release:
+- 18.2.1
+script:
+- mix test
+- mix escript.build
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: L6QWceDiVkuXCwv3g6crVYp6vxScmT0Sm4EJL4z5HKc6UMDPFspNeeA5tMAXk0plJPkliS+W189cZALDok9fH1dIkGcx4WY4vbxLJ0lXVEEWstYGNOZsMj22sDoIRp+3P9IdInAtStcRyr9TCiODtOw68TkdSUMUyqbIHGA+VLZKnzK5wAniueCFjI1vU+Q6leddLIGQFbpL7TVt+ptIW3x9olfK0Fpq5j7ENpVV8kvaVPKoBFeIMZLi6IpylH5avHgVK4KY8TbbhStuvGFQwymLGb6HJSYDQLZSJuiOfkEQH4v17s0Stt3vzzoHVgZxIAkshqZelII5bZ2AVw16Deu+6ywlWTPyOQmSRZQ6qQioABWu9JqoAu+6hQytlqzTfBaf85ajBlsPnEORGMnsPQACcJZEvGvxxAVG5bL9bndqPownZ0fqBVpZVjxWzc7UABgBHnHUGS/KfMBZwLGgu2r4y7EEzatfVejl3Z0CExapDMmPuMir622eje1Zwr1dqfA9/vYz1HhEe35IpjkBb+a+w9LVh7qE5vwgO/cIAUMTgqi0dLt5xfZs50QWvhBhm1iBsQiIvKiMbeT17maoKxDXpx6Co1uDA65hlM1LDGYJJ9BflIlTAPDq2WaRyjrOek7LVxzNYgpxomxEYtnx0KS8PNTUgX+ZMnSrD858B7g=
+  file: slap
+  on:
+    repo: laibulle/slap
+    branch: travis
+    tags: true
