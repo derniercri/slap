@@ -28,7 +28,8 @@ defmodule Slap do
 
     # Stop the test
     Quantum.delete_job(:ticker)
-    :timer.sleep(3000); # Waiting for requests to finish, assuming it would take at most 3 seconds
+    GenServer.cast(reporter_id, :stop)
+    :timer.sleep(3 * 1000) # TODO: should be replaced by someting that wait for all requests to be finished
 
     # Run the clean up function
     Scene.after_run(run_args, data)
@@ -40,7 +41,10 @@ defmodule Slap do
   end
 
   def draw_report(reporter_id) do
-    Slap.ReporterCli.print(GenServer.call(reporter_id, :compute))
+    case GenServer.call reporter_id, :running do
+      true -> Slap.ReporterCli.print(GenServer.call(reporter_id, :compute))
+      false -> -1
+    end
     :timer.sleep(1000);
     draw_report(reporter_id)    
   end
@@ -65,10 +69,10 @@ defmodule Slap do
         {:ok, script} =  File.read scene # Parse the script file
         {:ok, reporter_id} = init # Start a GenServer to handle the data report
         spawn(fn -> draw_report(reporter_id) end)
-        report = run(duration, clients, script, custom_args, reporter_id)
+        report = run(duration, clients, script, custom_args, reporter_id) 
+        Slap.ReporterCli.print report  # Print report into HTML
         Slap.ReporterHTML.print report  # Print report into HTML
         IO.puts "\nYou can open an HTML report with `open report.html`"
-
       _ -> IO.puts "Invalid arguments\n Exemple: slap examples/scene1.exs 10 10 --custom_arg1 32"
     end
   end

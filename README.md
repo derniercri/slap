@@ -1,6 +1,6 @@
 # Slap
 
-[![Build Status](https://travis-ci.org/laibulle/slap.svg?branch=master)](https://travis-ci.org/laibulle/slap)
+[![Build Status](https://travis-ci.org/derniercri/slap.svg?branch=master)](https://travis-ci.org/derniercri/slap)
 
 Slap is a load testing tool for developers. 
 
@@ -16,9 +16,8 @@ __TODO__
 - Parse CLI arguments
 - Documentation
 
-![Report](https://raw.githubusercontent.com/laibulle/slap/master/doc/bar.png)
-
-![Plot](https://raw.githubusercontent.com/laibulle/slap/master/doc/plot.png)
+![Report](https://raw.githubusercontent.com/derniercri/slap/master/doc/bar.png)
+![Plot](https://raw.githubusercontent.com/derniercri/slap/master/doc/plot.png)
 
 
 ## Getting started

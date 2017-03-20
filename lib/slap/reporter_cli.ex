@@ -14,17 +14,13 @@ defmodule Slap.ReporterCli do
     
     if report.total_iterations > 0 do
       IO.write "\e[1A"
-      ProgressBar.render(report.current_iteration, report.total_iterations, format)
-      IO.write "\n"
+      IO.write "\r"
+      clean(80)
+      IO.write "\r"
       write(report)
+      IO.write "\n"
+      ProgressBar.render(report.current_iteration, report.total_iterations, format)
     end
-  end
-
-  def print(report) do
-    IO.write "\r"
-    clean(80)
-    IO.write "\r"
-    write(report)
   end
 
   def clean(0) do

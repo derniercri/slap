@@ -12,12 +12,17 @@ defmodule Slap.Reporter do
        average_latency: 0, 
        total_time: 0, 
        total_iterations: 0, 
-       current_iteration: 0
+       current_iteration: 0,
+       running: true
     }}
   end
 
   def handle_cast({:push, metrics}, state) do
     {:noreply, concat(metrics, state)}
+  end
+
+  def handle_cast(:stop, state) do
+    {:noreply, %{state | running: false}}
   end
 
   def handle_cast({:set_iterations, iterations}, state) do
@@ -43,6 +48,10 @@ defmodule Slap.Reporter do
 
   def concat([], state) do
     state
+  end
+
+  def handle_call(:running, _from, state) do
+    {:reply, state.running, state}
   end
 
   def handle_call(:compute, _from, state) do
