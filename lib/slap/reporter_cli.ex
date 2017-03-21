@@ -15,7 +15,7 @@ defmodule Slap.ReporterCli do
     if report.total_iterations > 0 do
       IO.write "\e[1A"
       IO.write "\r"
-      clean(80)
+      clean(200)
       IO.write "\r"
       write(report)
       IO.write "\n"
@@ -32,6 +32,9 @@ defmodule Slap.ReporterCli do
   end
 
   defp write(report) do 
-    IO.write " Total: #{report.total} | Success: #{report.success} | Fail: #{report.total - report.success} | Average latency: #{trunc(report.average_latency / 1000000)} ms"
+    IO.write " Total: #{report.total} | Success: #{report.success} | Fail: #{report.total - report.success} | Average latency: #{trunc(report.average_latency / 1000000)} ms "
+    Enum.each(report.codes, fn({k, x}) ->
+      IO.write(" | #{k} : #{x}")
+    end)
   end
 end

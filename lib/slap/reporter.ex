@@ -7,6 +7,7 @@ defmodule Slap.Reporter do
   def init(_state) do
     {:ok, %{
        metrics: [], 
+       codes: %{},
        success: 0, 
        total: 0, 
        average_latency: 0, 
@@ -38,6 +39,12 @@ defmodule Slap.Reporter do
       state = %{state | success: state[:success] + 1 } 
     end
 
+    count = case Map.has_key?(state.codes, metric.status_code) do
+      false -> 0
+      true -> Map.get(state.codes, metric.status_code) + 1
+    end
+
+    state = %{ state | codes:  Map.put(state.codes, metric.status_code, count) }
     state = %{ state | total: state[:total] + 1 } 
     state = %{ state | metrics: state[:metrics] ++ [metric] }
     state = %{ state | total_time: state[:total_time] + metric.latency }
@@ -62,6 +69,7 @@ defmodule Slap.Reporter do
     %Slap.Report{
       success: state.success, 
       metrics: state.metrics, 
+      codes: state.codes,
       total: state.total, 
       average_latency: state.average_latency,
       total_iterations: state.total_iterations,
