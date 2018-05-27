@@ -3,6 +3,7 @@ defmodule Cloud.Auth.User do
   import Ecto.Changeset
   alias Cloud.Auth.Organization
   alias Cloud.Auth.User
+  alias Cloud.Repo
 
   schema "users" do
     field(:email, :string)

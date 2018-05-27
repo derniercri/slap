@@ -1,6 +1,11 @@
-alias Cloud.Auth.{User, Client, Authorization}
+alias Cloud.Auth.{User, Client, Authorization, Organization}
 alias Comeonin.Bcrypt
 alias Cloud.Repo
+
+organization_1 =
+  Repo.insert!(%Organization{
+    name: "johndoe"
+  })
 
 user_1 =
   Repo.insert!(%User{
@@ -9,6 +14,8 @@ user_1 =
     password_hash: Bcrypt.hashpwsalt("password"),
     enabled: true
   })
+
+User.link_user_and_organization(user_1, organization_1)
 
 client_1 =
   Repo.insert!(%Client{

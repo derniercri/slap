@@ -6,6 +6,7 @@ defmodule MyApp.Repo.Migrations.CreateFiles do
       add(:name, :string)
       add(:content, :text)
       add(:version, :integer)
+      add(:organization, references(:organizations, on_delete: :delete_all, type: :bigint))
 
       timestamps()
     end
