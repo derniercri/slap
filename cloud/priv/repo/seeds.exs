@@ -1,11 +1,11 @@
-alias Cloud.Auth.Model.{User, Client, Authorization}
+alias Cloud.Auth.{User, Client, Authorization}
 alias Comeonin.Bcrypt
 alias Cloud.Repo
 
 user_1 =
   Repo.insert!(%User{
     username: "johndoe",
-    email: "jdoe@hibou.io",
+    email: "jdoe@slap.io",
     password_hash: Bcrypt.hashpwsalt("password"),
     enabled: true
   })

@@ -26,6 +26,15 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+config :hibou,
+  repo: Cloud.Repo,
+  guardian: Cloud.Guardian,
+  storage: Hibou.StorageEcto
+
+config :cloud, Cloud.AuthAccessPipeline,
+  module: Cloud.Guardian,
+  error_handler: Cloud.AuthErrorHandler
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

@@ -62,3 +62,7 @@ config :cloud, Cloud.Repo,
   database: "postgres",
   hostname: "localhost",
   pool_size: 10
+
+config :cloud, Cloud.Guardian,
+  issuer: "cloud",
+  secret_key: "IiyscTs4H35aVOd9+9aMe4R35oqeZtSyb0cTWp6T3dGydcTmork9RXnXpgoyFQz7"

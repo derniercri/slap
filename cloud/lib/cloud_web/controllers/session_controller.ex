@@ -1,6 +1,8 @@
 defmodule CloudWeb.SessionController do
   use CloudWeb, :controller
   alias Cloud.Auth.User
+  alias Hibou.OAuth2
+  alias Cloud.Guardian
 
   def new(conn, _params) do
     render(conn, "new.html")
@@ -18,11 +20,11 @@ defmodule CloudWeb.SessionController do
       user ->
         case user.enabled do
           true ->
-            conn = MyApp.Guardian.Plug.sign_in(conn, user)
+            conn = Guardian.Plug.sign_in(conn, user)
             path = get_session(conn, :redirect_url) || "/"
 
             conn
-            |> MyApp.Guardian.Plug.sign_in(user, %{"sub" => "#{user.id}"})
+            |> Guardian.Plug.sign_in(user, %{"sub" => "#{user.id}"})
             |> redirect(to: path)
 
           false ->
@@ -35,7 +37,7 @@ defmodule CloudWeb.SessionController do
 
   def sign_out(conn, _params) do
     conn
-    |> MyApp.Guardian.Plug.sign_out()
+    |> Guardian.Plug.sign_out()
     |> redirect(to: "/login")
   end
 
