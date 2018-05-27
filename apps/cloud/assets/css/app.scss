@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 
 * {
     font-family: 'Lato', sans-serif;
+}
+
+pre {
+    font-family: 'Roboto Mono', monospace;
+    background-color: whitesmoke;
+    padding: 15px;
 }
 
 a {

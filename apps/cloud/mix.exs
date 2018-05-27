@@ -5,6 +5,10 @@ defmodule Cloud.Mixfile do
     [
       app: :cloud,
       version: "0.0.1",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -42,7 +46,6 @@ defmodule Cloud.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:hibou, github: "derniercri/hibou"},
-      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
       {:phoenix_slime, "~> 0.10.0"}
     ]
   end

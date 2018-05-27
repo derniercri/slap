@@ -8,7 +8,7 @@ defmodule Runner.Script do
     case result do
       {:ok, res} ->
         [
-          %Slap.Metric{
+          %Runner.Metric{
             status_code: res.status_code,
             start: start,
             stop: stop,
@@ -18,7 +18,7 @@ defmodule Runner.Script do
         ]
 
       {:error, error} ->
-        [%Slap.Metric{start: start, stop: stop, latency: latency}]
+        [%Runner.Metric{start: start, stop: stop, latency: latency}]
     end
   end
 end

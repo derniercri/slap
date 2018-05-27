@@ -12,12 +12,14 @@ config :phoenix, :template_engines,
   slime: PhoenixSlime.Engine
 
 # General application configuration
-config :cloud, ecto_repos: [Cloud.Repo]
+config :cloud,
+  namespace: Cloud,
+  ecto_repos: [Cloud.Repo]
 
 # Configures the endpoint
 config :cloud, CloudWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "ckR48I0pKoW4ECU0gNs/QNJVcJR0YWu0Lv6BvbPIr6sbkUFr76GDqqoOUy7I86mk",
+  secret_key_base: "lrIa4A2Fgv5jy4JYzuL4c2bNrVOTh+EPLiuBuUDVS3Z9gpDfh6z9TaDIqRggzW/h",
   render_errors: [view: CloudWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Cloud.PubSub, adapter: Phoenix.PubSub.PG2]
 

@@ -68,7 +68,7 @@ defmodule Runner.Reporter do
   end
 
   def compute(state) do
-    %Slap.Report{
+    %Runner.Report{
       success: state.success,
       metrics: state.metrics,
       codes: state.codes,
