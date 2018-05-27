@@ -1,6 +1,8 @@
 defmodule Cloud.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Cloud.Auth.Organization
+  alias Cloud.Auth.User
 
   schema "users" do
     field(:email, :string)
@@ -9,8 +11,22 @@ defmodule Cloud.Auth.User do
     field(:confirmation_code, :string)
     field(:password_hash, :string)
     field(:username, :string)
+    many_to_many(:organizations, Organization, join_through: "users_organizations")
 
     timestamps()
+  end
+
+  def link_user_and_organization(user = %User{}, organization = %Organization{}) do
+    user = Repo.preload(user, :organizations)
+
+    organizations =
+      (user.organizations ++ [organization])
+      |> Enum.map(&Ecto.Changeset.change/1)
+
+    user
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:organizations, organizations)
+    |> Repo.update()
   end
 
   @doc false
