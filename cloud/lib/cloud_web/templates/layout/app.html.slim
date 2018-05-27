@@ -21,10 +21,7 @@ html lang="en"
               - else 
                 a href="/logout" Sign out
                 
-      p.alert.alert-info role="alert" 
-        = get_flash(@conn, :info)
-      p.alert.alert-danger role="alert" 
-        = get_flash(@conn, :error) 
-      main role="main" 
-        = render @view_module, @view_template, assigns 
+      p.alert.alert-info role="alert" = get_flash(@conn, :info)
+      p.alert.alert-danger role="alert" = get_flash(@conn, :error) 
+      main role="main" = render @view_module, @view_template, assigns 
     <script src="<%= static_path(@conn, "/js/app.js") %>"/>

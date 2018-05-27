@@ -1,0 +1,26 @@
+language: elixir
+addons:
+  apt:
+    packages:
+    - build-essential
+    - erlang-dev
+
+services:
+- postgresql
+
+elixir:
+- 1.6.0
+otp_release:
+- 20.2
+before_script:
+- export PLT_FILENAME=elixir-${TRAVIS_ELIXIR_VERSION}_${TRAVIS_OTP_RELEASE}.plt
+- export PLT_LOCATION=/home/travis/$PLT_FILENAME
+- wget -O $PLT_LOCATION https://raw.github.com/danielberkompas/travis_elixir_plts/master/$PLT_FILENAME
+script:
+- mix deps.get
+#- mix dialyzer --halt-exit-status --no_check_plt --plt $PLT_LOCATION --no_native _build/test/lib/hibou/ebin
+#- cd  phoenix && mix do deps.get, ecto.reset, run priv/repo/seeds.exs, test
+#- mix ecto.create
+#- mix ecto.migrate
+#- mix run priv/repo/seeds.exs
+#- mix test
