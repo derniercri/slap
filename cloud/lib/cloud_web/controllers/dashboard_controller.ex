@@ -3,11 +3,14 @@ defmodule CloudWeb.DashboardController do
   alias Cloud.Auth.User
   alias Cloud.Repo
   alias Cloud.Guardian.Plug
+  alias Cloud.Scenario
 
   def index(conn, _params) do
     resource = Plug.current_resource(conn)
-    IO.inspect(resource)
 
-    render(conn, "index.html")
+    files =
+      List.first(resource.organizations).id |> Scenario.get_scenes_files_by_organization_id()
+
+    render(conn, "index.html", files: files)
   end
 end

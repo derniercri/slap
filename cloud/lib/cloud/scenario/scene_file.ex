@@ -2,6 +2,7 @@ defmodule Cloud.Scenario.SceneFile do
   use Ecto.Schema
   import Ecto.Changeset
   alias Cloud.Auth.Organization
+  alias Cloud.Scenario.SceneFile
 
   schema "files" do
     field(:name, :string)
@@ -13,8 +14,8 @@ defmodule Cloud.Scenario.SceneFile do
   end
 
   @doc false
-  def changeset(user, attrs) do
-    user
+  def changeset(file = %SceneFile{}, attrs) do
+    file
     |> cast(attrs, [:name, :version, :content, :organization_id])
     |> validate_required([:name, :version, :content, :organization_id])
   end
