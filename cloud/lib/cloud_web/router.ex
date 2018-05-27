@@ -24,6 +24,12 @@ defmodule CloudWeb.Router do
     delete("/logout", SessionController, :delete)
   end
 
+  scope "/dashboard", CloudWeb do
+    pipe_through(:browser)
+
+    get("/", DashboardController, :index)
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CloudWeb do
   #   pipe_through :api
