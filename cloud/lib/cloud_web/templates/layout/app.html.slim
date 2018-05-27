@@ -16,7 +16,11 @@ html lang="en"
         nav role="navigation" 
           ul.nav.nav-pills.pull-right
             li
-              a href="/login"  Sign In
+              = if Cloud.Guardian.Plug.current_resource(@conn) == nil do
+                a href="/login" Sign In
+              - else 
+                a href="/logout" Sign out
+                
       p.alert.alert-info role="alert" 
         = get_flash(@conn, :info)
       p.alert.alert-danger role="alert" 
