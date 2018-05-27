@@ -1,4 +1,6 @@
-defmodule Runner do
+defmodule Runner.RunSupervisor do
+  use GenServer
+
   use GenServer
 
   @moduledoc """

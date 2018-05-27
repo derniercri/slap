@@ -21,7 +21,7 @@ defmodule CloudWeb.SessionController do
         case user.enabled do
           true ->
             conn = Guardian.Plug.sign_in(conn, user)
-            path = get_session(conn, :redirect_url) || "/"
+            path = get_session(conn, :redirect_url) || "/dashboard"
 
             conn
             |> Guardian.Plug.sign_in(user, %{"sub" => "#{user.id}"})

@@ -3,7 +3,7 @@ alias Cloud.Scenario.{SceneFile}
 alias Comeonin.Bcrypt
 alias Cloud.Repo
 
-{:ok, content} = File.read("priv/repo/scene1.exs")
+{:ok, content} = File.read("apps/cloud/priv/repo/scene1.exs")
 
 organization_1 =
   Repo.insert!(%Organization{

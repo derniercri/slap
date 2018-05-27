@@ -1,5 +1,5 @@
 defmodule Scene do
-  import Slap.Script
+  import Runner.Script
 
   def before_run(_args) do
     url = "http://localhost:4000"

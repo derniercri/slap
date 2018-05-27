@@ -15,6 +15,10 @@ defmodule Slap.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [{:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false}]
+    [
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:quantum, "~> 2.2"},
+      {:httpoison, "~> 1.0"}
+    ]
   end
 end

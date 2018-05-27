@@ -1,0 +1,94 @@
+defmodule Cli do
+  import Crontab.CronExpression
+
+  @logo "IC5kODg4OGIuICA4ODggICAgICAgICAgICAgZDg4ODggODg4ODg4OGIuICANCmQ4OFAgIFk4OGIgODg4ICAgICAgICAgICAgZDg4ODg4IDg4OCAgIFk4OGIgDQpZODhiLiAgICAgIDg4OCAgICAgICAgICAgZDg4UDg4OCA4ODggICAgODg4IA0KICJZODg4Yi4gICA4ODggICAgICAgICAgZDg4UCA4ODggODg4ICAgZDg4UCANCiAgICAiWTg4Yi4gODg4ICAgICAgICAgZDg4UCAgODg4IDg4ODg4ODhQIiAgDQogICAgICAiODg4IDg4OCAgICAgICAgZDg4UCAgIDg4OCA4ODggICAgICAgIA0KWTg4YiAgZDg4UCA4ODggICAgICAgZDg4ODg4ODg4ODggODg4ICAgICAgICANCiAiWTg4ODhQIiAgODg4ODg4ODggZDg4UCAgICAgODg4IDg4OCAgICAgICAgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo="
+
+  def init() do
+    GenServer.start_link(Slap.Reporter, [])
+  end
+
+  def run(duration, clients, script, run_args, reporter_id) do
+    Code.eval_string(script)
+    alias Scene
+    HTTPoison.start()
+
+    GenServer.cast(reporter_id, {:set_iterations, duration})
+
+    data = Scene.before_run(run_args)
+
+    # Start sending requests every seconds
+    job = %Quantum.Job{
+      # required
+      schedule: ~e[*/1]e,
+      # required
+      task: {Slap.ClientRunner, :run},
+      args: [&Scene.run/2, run_args, data, clients, reporter_id]
+    }
+
+    Quantum.add_job(:ticker, job)
+    # Wait for the duration of the test
+    :timer.sleep(duration * 1000)
+
+    # Stop the test
+    Quantum.delete_job(:ticker)
+    # Waiting for requests to finish, assuming it would take at most 3 seconds
+    :timer.sleep(3000)
+
+    # Run the clean up function
+
+    Scene.after_run(run_args, data)
+
+    # Generate report
+    report = GenServer.call(reporter_id, :compute)
+    GenServer.stop(reporter_id)
+    report
+  end
+
+  def draw_report(reporter_id) do
+    Slap.ReporterCli.print(GenServer.call(reporter_id, :compute))
+    :timer.sleep(1000)
+    draw_report(reporter_id)
+  end
+
+  def main(args) do
+    # Print logo
+    {:ok, logo} = Base.decode64(@logo)
+    IO.puts(logo)
+
+    case args do
+      [scene, clients_str, duration_str | custom_args] ->
+        clients =
+          case Integer.parse(clients_str) do
+            {clients, _} ->
+              clients
+
+            _ ->
+              IO.puts("Invalid clients number: #{clients_str}")
+              System.halt(0)
+          end
+
+        duration =
+          case Integer.parse(duration_str) do
+            {duration, _} ->
+              duration
+
+            _ ->
+              IO.puts("Invalid duration: #{duration_str}")
+              System.halt(0)
+          end
+
+        # Parse the script file
+        {:ok, script} = File.read(scene)
+        # Start a GenServer to handle the data report
+        {:ok, reporter_id} = init
+        spawn(fn -> draw_report(reporter_id) end)
+        report = run(duration, clients, script, custom_args, reporter_id)
+        # Print report into HTML
+        Slap.ReporterHTML.print(report)
+        IO.puts("\nYou can open an HTML report with `open report.html`")
+
+      _ ->
+        IO.puts("Invalid arguments\n Exemple: slap examples/scene1.exs 10 10 --custom_arg1 32")
+    end
+  end
+end

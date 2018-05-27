@@ -6,18 +6,19 @@ defmodule CloudWeb.SceneController do
   alias Cloud.Scenario
   alias Runner
 
+  def draw_report(reporter_id) do
+    :timer.sleep(1000)
+    IO.puts("do something")
+  end
+
   def run(conn, %{"id" => id}) do
     scene_file = Scenario.get_file_by_id!(id)
 
-    file_path = "tmp/#{scene_file.id}.exs"
+    {:ok, reporter_id} = GenServer.start_link(Runner.Reporter, [])
 
-    {:ok, file} = File.open(file_path, [:write])
-    IO.binwrite(file, scene_file.content)
-    File.close(file)
+    {:ok, runner_id} = GenServer.start_link(Runner.RunSupervisor, [])
 
-    {:ok, pid} = GenServer.start_link(Runner.Reporter, [])
-
-    Runner.run(file_path, [], [], pid)
+    # Runner.run_2(10, 10, scene_file.content, [], reporter_id)
 
     render(conn, "run.html", file: scene_file)
   end
