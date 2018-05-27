@@ -29,7 +29,10 @@ config :logger, :console,
 config :hibou,
   repo: Cloud.Repo,
   guardian: Cloud.Guardian,
-  storage: Hibou.StorageEcto
+  storage: Hibou.StorageEcto,
+  user_model: Cloud.Auth.User,
+  client_model: Cloud.Auth.Client,
+  authorization_model: Cloud.Auth.Authorization
 
 config :cloud, Cloud.AuthAccessPipeline,
   module: Cloud.Guardian,

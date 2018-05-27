@@ -1,6 +1,9 @@
 alias Cloud.Auth.{User, Client, Authorization, Organization}
+alias Cloud.Scenario.{SceneFile}
 alias Comeonin.Bcrypt
 alias Cloud.Repo
+
+{:ok, content} = File.read("priv/repo/scene1.exs")
 
 organization_1 =
   Repo.insert!(%Organization{
@@ -28,4 +31,16 @@ Repo.insert!(%Authorization{
   client_id: client_1.id,
   user_id: user_1.id,
   code: "testcode"
+})
+
+Repo.insert!(%Authorization{
+  client_id: client_1.id,
+  user_id: user_1.id,
+  code: "testcode"
+})
+
+Repo.insert!(%SceneFile{
+  name: "scene1.exs",
+  content: content,
+  organization_id: organization_1.id
 })
