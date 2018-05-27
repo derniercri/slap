@@ -8,20 +8,21 @@ html lang="en"
     meta content="" name="author" 
     title 👏 Slap
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
   body
-    .container
-      header.header
-        div Slap
-        nav role="navigation" 
-          ul.nav.nav-pills.pull-right
-            li
-              = if Cloud.Guardian.Plug.current_resource(@conn) == nil do
-                a href="/login" Sign In
-              - else 
-                a href="/logout" Sign out
+    header.header
+      div Slap
+      nav role="navigation" 
+        ul.main-menu
+          li
+            = if Cloud.Guardian.Plug.current_resource(@conn) == nil do
+              a href="/login" Sign In
+            - else 
+              a href="/logout" 
+                i.fas.fa-sign-out-alt.fa-2x
                 
-      p.alert.alert-info role="alert" = get_flash(@conn, :info)
-      p.alert.alert-danger role="alert" = get_flash(@conn, :error) 
-      main role="main" = render @view_module, @view_template, assigns 
+    p.alert.alert-info role="alert" = get_flash(@conn, :info)
+    p.alert.alert-danger role="alert" = get_flash(@conn, :error) 
+    main role="main" = render @view_module, @view_template, assigns 
     <script src="<%= static_path(@conn, "/js/app.js") %>"/>

@@ -1,5 +1,6 @@
-h2 Dashboard
+h3 Dashboard
 
 = for file <- @files do
-    = file.name 
-        a href="/dashboard/scene/#{file.id}/run"  Run
+    = "#{file.name} "
+        a href="/dashboard/scene/#{file.id}/run" 
+            i.fas.fa-play
