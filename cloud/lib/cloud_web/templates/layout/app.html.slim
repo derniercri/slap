@@ -1,0 +1,26 @@
+doctype html
+html lang="en" 
+  head
+    meta charset="utf-8" 
+    meta content="IE=edge" http-equiv="X-UA-Compatible" 
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    meta content="" name="description" 
+    meta content="" name="author" 
+    title 👏 Slap
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>" />
+
+  body
+    .container
+      header.header
+        div Slap
+        nav role="navigation" 
+          ul.nav.nav-pills.pull-right
+            li
+              a href="/sign-in"  Sign In
+      p.alert.alert-info role="alert" 
+        = get_flash(@conn, :info)
+      p.alert.alert-danger role="alert" 
+        = get_flash(@conn, :error) 
+      main role="main" 
+        = render @view_module, @view_template, assigns 
+    <script src="<%= static_path(@conn, "/js/app.js") %>"/>

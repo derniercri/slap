@@ -1,4 +1,5 @@
 # Slap
 
-**TODO: Add description**
+__Resources__
 
+- https://loadimpact.com/

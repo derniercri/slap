@@ -42,7 +42,8 @@ defmodule Cloud.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:hibou, github: "derniercri/hibou"},
-      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:phoenix_slime, "~> 0.10.0"}
     ]
   end
 
