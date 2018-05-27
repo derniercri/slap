@@ -29,6 +29,8 @@ defmodule CloudWeb.Router do
     pipe_through(:browser)
 
     get("/", DashboardController, :index)
+
+    get("/scene/:id/run", SceneController, :run)
   end
 
   # Other scopes may use custom stacks.

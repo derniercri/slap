@@ -1,4 +1,5 @@
 h2 Dashboard
 
 = for file <- @files do
-    = file.name
+    = file.name 
+        a href="/dashboard/scene/#{file.id}/run"  Run
