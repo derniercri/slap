@@ -10,7 +10,7 @@ module.exports = {
         app: ['./js/app.js', './css/app.scss'],
     },
     output: {
-        path: path.resolve(__dirname, './../priv/static/'),
+        path: path.resolve(__dirname, 'priv/static/'),
         filename: 'js/[name].js'
     },
     devtool: 'source-map',
