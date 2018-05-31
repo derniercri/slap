@@ -2,21 +2,23 @@ defmodule Scene do
   import Runner.Script
 
   def before_run(_args) do
-    url = "http://localhost:4000"
+    # url = "http://localhost:4000"
     # We create 100 user in the API
-    ids = create_users(url <> "/api/v1/users", 100, [])
-    %{users_id: ids, url: url}
+    # ids = create_users(url <> "/api/v1/users", 100, [])
+    # %{users_id: ids, url: url}
+    %{users_id: [1], url: "http://google.fr"}
   end
 
-  def run(_args, %{users_id: ids, url: url}) do
+  def run(%{users_id: ids, url: url}) do
     # Request 3 of the users of the API and returns the metric
     metrics = request("GET", url <> "/api/v1/users/#{Enum.random(ids)}")
     metrics ++ request("GET", url <> "/api/v1/users/#{Enum.random(ids)}")
     metrics ++ request("GET", url <> "/api/v1/users/#{Enum.random(ids)}")
   end
 
-  def after_run(_args, %{users_id: ids, url: url}) do
-    remove_users(url, ids)
+  # %{users_id: ids, url: url}
+  def after_run(_args, %{}) do
+    # remove_users(url, ids)
   end
 
   # Custom methods

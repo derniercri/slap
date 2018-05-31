@@ -1,4 +1,4 @@
-defmodule Runner.Reporter do
+defmodule Slap.Runner.Reporter do
   use GenServer
 
   @moduledoc """

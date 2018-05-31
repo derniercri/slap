@@ -1,24 +1,22 @@
 defmodule CloudWeb.SceneController do
   use CloudWeb, :controller
-  alias Cloud.Auth.User
-  alias Cloud.Repo
-  alias Cloud.Guardian.Plug
   alias Cloud.Scenario
-  alias Runner
-
-  def draw_report(reporter_id) do
-    :timer.sleep(1000)
-    IO.puts("do something")
-  end
+  alias Slap.Runner
 
   def run(conn, %{"id" => id}) do
     scene_file = Scenario.get_file_by_id!(id)
 
     {:ok, reporter_id} = GenServer.start_link(Runner.Reporter, [])
 
-    {:ok, runner_id} = GenServer.start_link(Runner.RunSupervisor, [])
+    {:ok, runner_id} =
+      GenServer.start_link(Runner, %{
+        clients: 3,
+        duration: 2,
+        script: scene_file.content,
+        reporter_id: reporter_id
+      })
 
-    # Runner.run_2(10, 10, scene_file.content, [], reporter_id)
+    # GenServer.cast(runner_id, {:start})
 
     render(conn, "run.html", file: scene_file)
   end

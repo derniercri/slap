@@ -1,7 +1,5 @@
 defmodule CloudWeb.DashboardController do
   use CloudWeb, :controller
-  alias Cloud.Auth.User
-  alias Cloud.Repo
   alias Cloud.Guardian.Plug
   alias Cloud.Scenario
 
